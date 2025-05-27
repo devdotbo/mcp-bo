@@ -100,7 +100,7 @@ export function ComingSoonOverlay() {
           <div className="flex justify-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/20 border border-primary/30 text-primary">
               <Shield className="h-5 w-5 mr-2" />
-              <span className="text-sm font-tech">MCP.BO: MCP BORED OBSERVATORY</span>
+              <span className="text-sm font-tech">MCP.BO: MCP BATTLE OBSERVATORY</span>
             </div>
           </div>
 
