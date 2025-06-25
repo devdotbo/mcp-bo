@@ -18,10 +18,10 @@ export function ComingSoonOverlay() {
   })
   const [signupCount, setSignupCount] = useState(0)
 
-  useEffect(() => {
-    // Set a fixed launch date (June 30, 2025)
-    const launchDate = new Date("2025-06-30T00:00:00")
+  // Define the launch date as a Date object
+  const launchDate = new Date("2025-07-30T00:00:00")
 
+  useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date()
       const difference = launchDate.getTime() - now.getTime()
@@ -177,7 +177,7 @@ export function ComingSoonOverlay() {
           <div className="pt-4 text-xs text-gray-400 max-w-md mx-auto">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Clock className="h-3 w-3" />
-              <span>Launch date: June 30, 2025</span>
+              <span>Launch date: {launchDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <p>The battle for AI sovereignty is approaching. Stay vigilant and prepare for the resistance.</p>
           </div>
