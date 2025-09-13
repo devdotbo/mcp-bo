@@ -8,7 +8,7 @@ import { ArrowRight, Brain, Shield } from "lucide-react"
 export function NexusHero() {
   const [loaded, setLoaded] = useState(false)
   const [typedText, setTypedText] = useState("")
-  const fullText = "The future of AI is being written now. Track it. Monitor it. Control it."
+  const fullText = "The future of AI is being written now.\nTrack it. Monitor it. Control it."
 
   useEffect(() => {
     setLoaded(true)
@@ -67,7 +67,7 @@ export function NexusHero() {
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground h-16 font-mono">
+          <p className="text-xl md:text-2xl text-muted-foreground h-16 font-mono whitespace-pre-line">
             {typedText}
             <span className="animate-blink">|</span>
           </p>
