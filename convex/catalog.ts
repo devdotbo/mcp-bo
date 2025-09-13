@@ -30,13 +30,20 @@ export const listByCategory = query({
     continueCursor: v.union(v.string(), v.null()),
   }),
   handler: async (ctx, args) => {
-    return await ctx.db
+    const result = await ctx.db
       .query("catalogItems")
       .withIndex("by_category_and_order", (q) =>
         q.eq("category", args.category),
       )
       .order("asc")
       .paginate(args.paginationOpts);
+
+    // Explicitly return only validated fields to avoid extra fields like `pageStatus`.
+    return {
+      page: result.page,
+      isDone: result.isDone,
+      continueCursor: result.continueCursor,
+    };
   },
 });
 
@@ -62,11 +69,18 @@ export const listByName = query({
     continueCursor: v.union(v.string(), v.null()),
   }),
   handler: async (ctx, args) => {
-    return await ctx.db
+    const result = await ctx.db
       .query("catalogItems")
       .withIndex("by_name", (q) => q.eq("name", args.name))
       .order("asc")
       .paginate(args.paginationOpts);
+
+    // Explicitly return only validated fields to avoid extra fields like `pageStatus`.
+    return {
+      page: result.page,
+      isDone: result.isDone,
+      continueCursor: result.continueCursor,
+    };
   },
 });
 
