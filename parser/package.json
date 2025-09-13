@@ -5,12 +5,17 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "start": "tsx parser/run.ts --input parser/input/modelcontextprotocol-servers-README.md --output parser/output/catalogItems.jsonl",
-    "parse": "tsx parser/run.ts"
+    "parse": "tsx parser/run.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "zod": "^4.1.8"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "eslint": "^9.35.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
+  }
 }
-
-
