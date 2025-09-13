@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import path from "node:path";
 import { computeSha256, ensureHttps, isRepoHost, nowIso, toKebabCase } from "./utils";
 import { CatalogItem, CatalogCategory, CatalogCategoryEnum } from "./schema";
 
@@ -86,7 +85,7 @@ function sliceForScope(content: string, startAnchor: string): string {
   // We need to ensure we include the community section and stop at the NEXT ## beyond it. Simpler: return until the next top-level ## after our first one.
   // afterStart begins with our ## already, so find the second occurrence.
   const indices: number[] = [];
-  let regex = /\n##\s+/g;
+  const regex = /\n##\s+/g;
   let m: RegExpExecArray | null;
   while ((m = regex.exec(afterStart)) !== null) {
     indices.push(m.index);
@@ -176,7 +175,7 @@ type Extracted = {
 function extractFields(rawBlock: string): Extracted {
   const rawMd = rawBlock.trim();
   // Name and primary URL from first bold link **[Name](url)**
-  const boldLinkRe = /\*\*\s*\[([^\]]+)\]\(([^\)]+)\)\s*\*\*/;
+  const boldLinkRe = /\*\*\s*\[([^\]]+)\]\(([^)]+)\)\s*\*\*/;
   const mBold = rawMd.match(boldLinkRe);
   const name = mBold?.[1]?.trim() ?? "";
   const primaryUrl = mBold?.[2]?.trim() ?? null;
@@ -203,7 +202,7 @@ function extractFields(rawBlock: string): Extracted {
   let repoUrl: string | null = null;
   if (primaryUrl && isRepoHost(primaryUrl)) repoUrl = primaryUrl;
   if (!repoUrl) {
-    const linkRe = /\[([^\]]+)\]\(([^\)]+)\)/g;
+    const linkRe = /\[([^\]]+)\]\(([^)]+)\)/g;
     let m: RegExpExecArray | null;
     while ((m = linkRe.exec(rawMd)) !== null) {
       const url = m[2];
