@@ -117,3 +117,36 @@ export const searchByName = query({
 });
 
 
+export const stats = query({
+  args: {},
+  returns: v.object({
+    totalCount: v.number(),
+    officialCount: v.number(),
+    communityCount: v.number(),
+  }),
+  handler: async (ctx) => {
+    const countByCategory = async (
+      category: "official_integrations" | "community_servers",
+    ): Promise<number> => {
+      let count = 0;
+      const q = ctx.db
+        .query("catalogItems")
+        .withIndex("by_category_and_order", (q) => q.eq("category", category));
+      for await (const _ of q) {
+        count += 1;
+      }
+      return count;
+    };
+
+    const [officialCount, communityCount] = await Promise.all([
+      countByCategory("official_integrations"),
+      countByCategory("community_servers"),
+    ]);
+
+    const totalCount = officialCount + communityCount;
+
+    return { totalCount, officialCount, communityCount };
+  },
+});
+
+
