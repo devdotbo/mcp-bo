@@ -20,7 +20,8 @@ export default defineSchema({
     // - by_category_and_order: for listing per section with a stable order
     // - by_name: for fast lookup/search by exact name
     .index("by_category_and_order", ["category", "orderInSection"]) 
-    .index("by_name", ["name"]),
+    .index("by_name", ["name"]) 
+    .searchIndex("search_name", { searchField: "name", filterFields: ["category"] }),
 });
 
 
