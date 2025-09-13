@@ -3,9 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
-    "start": "tsx parser/run.ts --input parser/input/modelcontextprotocol-servers-README.md --output parser/output/catalogItems.jsonl",
-    "parse": "tsx parser/run.ts",
+    "start": "bun run.ts --input input/modelcontextprotocol-servers-README.md --output output/catalogItems.jsonl",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
