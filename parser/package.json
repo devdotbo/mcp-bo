@@ -8,7 +8,7 @@
     "parse": "tsx parser/run.ts"
   },
   "dependencies": {
-    "zod": "^3.24.1"
+    "zod": "^4.1.8"
   },
   "devDependencies": {}
 }
