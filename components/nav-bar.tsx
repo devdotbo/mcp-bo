@@ -64,6 +64,10 @@ export function NavBar() {
                 Servers
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
+              <Link href="/servers/v2" className="text-sm font-tech transition-all hover:text-primary relative group">
+                Servers v2
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+              </Link>
               <Link href="#" className="text-sm font-tech transition-all hover:text-primary relative group">
                 Intelligence
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
@@ -120,6 +124,13 @@ export function NavBar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Servers
+              </Link>
+              <Link
+                href="/servers/v2"
+                className="text-sm font-tech transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Servers v2
               </Link>
               <Link
                 href="#"
