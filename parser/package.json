@@ -1,0 +1,16 @@
+{
+  "name": "mcp-bo-parser",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "start": "tsx parser/run.ts --input parser/input/modelcontextprotocol-servers-README.md --output parser/output/catalogItems.jsonl",
+    "parse": "tsx parser/run.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {}
+}
+
+
