@@ -41,7 +41,6 @@ export default function ServersV2Page() {
         orderInSection: d.orderInSection,
         description: d.description,
         homepage: d.homepage,
-        icons: d.icons,
       }))
     }
     return (items ?? []).map((d: any) => ({
@@ -52,7 +51,6 @@ export default function ServersV2Page() {
       orderInSection: d.orderInSection,
       description: d.description,
       homepage: d.homepage,
-      icons: d.icons,
     }))
   }, [items, searchResults, searchQuery])
 
