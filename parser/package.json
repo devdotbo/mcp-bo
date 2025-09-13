@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run.ts --input input/modelcontextprotocol-servers-README.md --output output/catalogItems.jsonl",
+    "icons": "bun fetch-icons.ts --input output/catalogItems.jsonl --outDir output/icons",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
