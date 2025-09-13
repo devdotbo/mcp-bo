@@ -56,6 +56,9 @@ export default function ServersV2Page() {
     }))
   }, [items, searchResults, searchQuery])
 
+  const canLoadMore = status === "CanLoadMore" || status === "LoadingMore"
+  const loadingMore = status === "LoadingMore"
+
   return (
     <div className="container py-12 space-y-8">
       <div className="space-y-4">
@@ -102,10 +105,10 @@ export default function ServersV2Page() {
         </div>
       )}
 
-      {searchQuery.length === 0 && status === "CanLoadMore" && (
+      {searchQuery.length === 0 && canLoadMore && (
         <div className="flex justify-center">
-          <Button variant="outline" onClick={() => loadMore(PAGE_SIZE)} disabled={status === "LoadingMore"}>
-            {status === "LoadingMore" ? "Loading…" : "Load more"}
+          <Button variant="outline" onClick={() => loadMore(PAGE_SIZE)} disabled={loadingMore}>
+            {loadingMore ? "Loading…" : "Load more"}
           </Button>
         </div>
       )}
