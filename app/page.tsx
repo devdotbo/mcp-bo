@@ -6,7 +6,6 @@ import { ArrowRight, Brain, Shield, Zap } from "lucide-react"
 import { NexusHero } from "@/components/nexus-hero"
 import { Analytics } from "@/components/analytics"
 import { HumanAiBattle } from "@/components/human-ai-battle"
-import { ComingSoonOverlay } from "@/components/coming-soon-overlay"
 
 export default function Home() {
   const featuredServers = getFeaturedServers()
@@ -17,7 +16,6 @@ export default function Home() {
       <NexusHero />
       <Analytics />
       <HumanAiBattle />
-      <ComingSoonOverlay />
 
       <div className="container py-16 space-y-24">
         <section className="space-y-8">
