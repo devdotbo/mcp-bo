@@ -6,7 +6,7 @@ This plan describes how to parse the attached README (`parser/input/modelcontext
 
 ### 1) Goals and non‑goals
 - **Goals**:
-  - Parse everything after `## 🤝 Third-Party Servers` into a structured dataset.
+  - Parse only the `### 🎖️ Official Integrations` and `### 🌎 Community Servers` sections under `## 🤝 Third-Party Servers` into a structured dataset. Stop before Frameworks/Resources.
   - Create a canonical, stable item shape suitable for Convex and future enrichment.
   - Output as JSON Lines (JSONL) to enable safe, large, and incremental imports into Convex.
   - Provide a repeatable CLI pipeline with validation, logging, and idempotent keys.
@@ -19,17 +19,15 @@ This plan describes how to parse the attached README (`parser/input/modelcontext
 ### 2) Source of truth and scope
 - **Input file**: `parser/input/modelcontextprotocol-servers-README.md`
 - **Start anchor**: First line matching `## 🤝 Third-Party Servers`
-- **Scope**: All content from that header to end of file, including:
+- **Scope**: Content from that header through the end of the `### 🌎 Community Servers` section only. Parse only:
   - `### 🎖️ Official Integrations` (kind = server, official)
   - `### 🌎 Community Servers` (kind = server, community)
-  - `## 📚 Frameworks` with subgroups (For servers / For clients) (kind = framework)
-  - `## 📚 Resources` (kind = resource)
-- Ignore any content before `## 🤝 Third-Party Servers`.
+- Ignore any content before `## 🤝 Third-Party Servers` and any content after the Community Servers section (e.g., Frameworks, Clients, Resources, etc.). Stop at the next top‑level `##` after Community Servers.
 
 ---
 
 ### 3) Output format: JSON Lines (JSONL)
-- Each line is one item (server/framework/resource).
+- Each line is one item (server).
 - Advantages vs CSV/JSON array:
   - Handles nested optional fields gracefully (links, icons, tags).
   - Avoids array size limits (8 MiB) for Convex JSON import.
@@ -43,8 +41,8 @@ This plan describes how to parse the attached README (`parser/input/modelcontext
   - `idempotentKey` (string): Stable identifier (see §7). Suggested: `${category}:${slug}`.
   - `name` (string): Display name from bolded link text.
   - `slug` (string): Kebab‑case unique slug derived from `name` (deduped if necessary).
-  - `kind` ("server" | "framework" | "resource"): High‑level type.
-  - `category` ("official_integrations" | "community_servers" | "frameworks" | "resources"): Top‑level grouping.
+  - `kind` ("server"): High‑level type.
+  - `category` ("official_integrations" | "community_servers"): Top‑level grouping.
   - `isOfficial` (boolean): True only for Official Integrations.
   - `primaryUrl` (string | null): URL from the bold title link.
   - `description` (string): Full textual description for the item.
@@ -53,7 +51,6 @@ This plan describes how to parse the attached README (`parser/input/modelcontext
   - `rawMd` (string): Original markdown block for audit/repro.
   - `lastSeenAt` (string, ISO datetime): Snapshot time.
 - Optional/enrichment fields:
-  - `subgroup` (string | null): For Frameworks: "server" | "client"; else null.
   - `repoUrl` (string | null): If `primaryUrl` is a repo, or first repo‑like link within the item.
   - `iconUrl` (string | null): First `<img ... src>` if present.
   - `icons` (array<string>): All icon URLs found.
@@ -69,7 +66,6 @@ Example (illustrative only):
   "slug": "kagi-search",
   "kind": "server",
   "category": "official_integrations",
-  "subgroup": null,
   "isOfficial": true,
   "primaryUrl": "https://github.com/kagisearch/kagimcp",
   "repoUrl": "https://github.com/kagisearch/kagimcp",
@@ -95,17 +91,14 @@ Example (illustrative only):
 ### 5) Taxonomy mapping
 - `Official Integrations` → `kind=server`, `category=official_integrations`, `isOfficial=true`
 - `Community Servers` → `kind=server`, `category=community_servers`, `isOfficial=false`
-- `Frameworks` → `kind=framework`, `category=frameworks`, `subgroup` from subheading ("For servers" | "For clients") if present
-- `Resources` → `kind=resource`, `category=resources`, `isOfficial=false`
 
 ---
 
 ### 6) Parsing approach (one pass, resilient)
 1) **Load** the input file and compute a `snapshotHash` (sha256) and `lastSeenAt` (now).
-2) **Slice** content starting at the first `## 🤝 Third-Party Servers` header through end‑of‑file.
+2) **Slice** content starting at the first `## 🤝 Third-Party Servers` header through the end of the `### 🌎 Community Servers` section (stop before the next top‑level `##`, e.g., `## 📚 Frameworks`).
 3) **Sectioning**:
-   - Split into blocks by top‑level `##` headers within the sliced area to detect `Frameworks` and `Resources`.
-   - Within each block, detect `###` (and if used, `####`) subheadings for categories and subgroups.
+   - Detect the `###` subheadings `🎖️ Official Integrations` and `🌎 Community Servers` within the sliced area.
 4) **List extraction**:
    - Treat each top‑level `- ` bullet as an item; include wrapped lines until the next bullet or header at the same or higher level.
    - Preserve original `rawMd` for each item.
@@ -140,7 +133,7 @@ Example (illustrative only):
 - Use a JSON schema or Zod schema that mirrors §4 (types and required fields).
 - **Strictness**:
   - Required: `name`, `slug`, `kind`, `category`, `isOfficial`, `description`, `orderInSection`, `source`, `rawMd`, `lastSeenAt`.
-  - Optional: `primaryUrl`, `repoUrl`, `iconUrl`, `icons`, `tags`, `transports`, `language`, `subgroup`.
+  - Optional: `primaryUrl`, `repoUrl`, `iconUrl`, `icons`, `tags`, `transports`, `language`.
 - On validation failure:
   - Log the failure with item context and continue.
   - Emit a minimal placeholder item with `name` set to the first 60 chars of `rawMd` if extraction of `name` failed (rare), mark a `tags` entry `parse_error` for visibility.
@@ -161,13 +154,13 @@ Example (illustrative only):
 ---
 
 ### 10) Convex data model (high‑level)
-- Single table `catalogItems` with a discriminated union:
-  - Discriminator: `kind` ("server" | "framework" | "resource")
+- Single table `catalogItems` with a single `kind` value:
+  - Discriminator: `kind` ("server")
   - Common fields include those in §4 (Convex validators mirror types; `lastSeenAt` as `v.string()`)
 - **Indexes**:
   - `by_slug` → ["slug"] (unique)
   - `by_kind` → ["kind"]
-  - `by_category_and_subgroup` → ["category", "subgroup"]
+  - `by_category` → ["category"]
   - `by_is_official` → ["isOfficial"]
   - `by_lastSeenAt` → ["lastSeenAt"] (optional for auditing)
 - **Search index** (optional but recommended): over `name` and `description` for free‑text UI search.
@@ -241,7 +234,7 @@ Example (illustrative only):
 - JSONL produced at `parser/out/catalogItems.jsonl` with >0 items and required fields.
 - No validation errors at default strictness; warnings acceptable for optional fields.
 - Convex table `catalogItems` created with specified indexes; import `--replace` succeeds.
-- Front‑end can query by `category`, `subgroup`, `isOfficial`, and search by name/description.
+- Front‑end can query by `category`, `isOfficial`, and search by name/description.
 
 ---
 
