@@ -18,13 +18,11 @@ export default function ServersV2Page() {
   )
   const [searchQuery, setSearchQuery] = useState("")
 
-  const {
-    results: items,
-    status,
-    loadMore,
-    isLoading,
-    isDone,
-  } = usePaginatedQuery(api.catalog.listByCategory, { category: activeCategory }, { initialNumItems: PAGE_SIZE })
+  const { results: items, status, loadMore } = usePaginatedQuery(
+    api.catalog.listByCategory,
+    { category: activeCategory },
+    { initialNumItems: PAGE_SIZE },
+  )
 
   const searchResults = useQuery(api.catalog.searchByName, {
     queryText: searchQuery,
@@ -104,10 +102,10 @@ export default function ServersV2Page() {
         </div>
       )}
 
-      {searchQuery.length === 0 && !isDone && (
+      {searchQuery.length === 0 && status === "CanLoadMore" && (
         <div className="flex justify-center">
-          <Button variant="outline" onClick={() => loadMore(PAGE_SIZE)} disabled={isLoading}>
-            {isLoading ? "Loading…" : "Load more"}
+          <Button variant="outline" onClick={() => loadMore(PAGE_SIZE)} disabled={status === "LoadingMore"}>
+            {status === "LoadingMore" ? "Loading…" : "Load more"}
           </Button>
         </div>
       )}
