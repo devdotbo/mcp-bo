@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { computeSha256, ensureHttps, isRepoHost, nowIso, toKebabCase } from "./utils";
+import { computeSha256, ensureHttps, isRepoHost } from "./utils";
 import { CatalogItem, CatalogCategory, CatalogCategoryEnum } from "./schema";
 
 export type ParseOptions = {
@@ -23,51 +23,29 @@ export function parseReadmeToItems(opts: ParseOptions): { items: CatalogItem[]; 
 
   const sliced = sliceForScope(content, startAnchor);
   const sections = extractSections(sliced);
-  const lastSeenAt = nowIso();
 
   const items: CatalogItem[] = [];
-  const slugCounters = new Map<string, number>(); // per category
 
   for (const section of sections) {
     let order = 0;
     for (const raw of section.rawItems) {
       order += 1;
       const extracted = extractFields(raw);
-      const slugBase = toKebabCase(extracted.name || raw.slice(0, 60));
-      const slugKey = `${section.category}:${slugBase}`;
-      const nextCount = (slugCounters.get(slugKey) ?? 0) + 1;
-      slugCounters.set(slugKey, nextCount);
-      const slug = nextCount === 1 ? slugBase : `${slugBase}-${nextCount}`;
+      const homepageCandidate = extracted.primaryUrl ?? extracted.repoUrl;
+      const homepage = homepageCandidate ? ensureHttps(homepageCandidate) : undefined;
 
-      const primaryUrl = extracted.primaryUrl ? ensureHttps(extracted.primaryUrl) : null;
-      const repoUrl = extracted.repoUrl ? ensureHttps(extracted.repoUrl) : (primaryUrl && isRepoHost(primaryUrl) ? primaryUrl : null);
-
-      const item: CatalogItem = {
-        idempotentKey: `${section.category}:${slug}`,
-        name: extracted.name || slug,
-        slug,
-        kind: "server",
-        category: section.category,
-        isOfficial: section.isOfficial,
-        primaryUrl,
-        repoUrl,
-        iconUrl: extracted.icons.length > 0 ? ensureHttps(extracted.icons[0]) : null,
-        icons: extracted.icons.map(ensureHttps),
-        description: extracted.description || extracted.rawMd.replace(/\s+/g, " ").trim(),
-        tags: extracted.tags,
-        transports: extracted.transports,
-        language: extracted.language,
-        orderInSection: order,
-        source: {
-          origin: "mcp-servers-readme",
-          path: opts.inputPath,
-          snapshotHash,
-        },
-        rawMd: extracted.rawMd,
-        lastSeenAt,
-      };
-
-      items.push(item);
+      // Only include items that have a resolvable homepage URL and a name
+      if (homepage && (extracted.name && extracted.name.trim().length > 0)) {
+        const item: CatalogItem = {
+          name: extracted.name.trim(),
+          category: section.category,
+          orderInSection: order,
+          description: (extracted.description || extracted.rawMd.replace(/\s+/g, " ").trim()),
+          homepage,
+          ...(extracted.icons.length > 0 ? { icons: extracted.icons.map(ensureHttps) } : {}),
+        };
+        items.push(item);
+      }
     }
   }
 
@@ -198,7 +176,7 @@ function extractFields(rawBlock: string): Extracted {
     description = rawMd.replace(/^-[\s\S]*?\*\*[\s\S]*?\*\*/, "").replace(/\s+/g, " ").trim();
   }
 
-  // Repo URL: if primary is repo, use it, else first repo-looking link in text
+  // Repo URL: if primary is repo, use it; else first repo-looking link in text
   let repoUrl: string | null = null;
   if (primaryUrl && isRepoHost(primaryUrl)) repoUrl = primaryUrl;
   if (!repoUrl) {
