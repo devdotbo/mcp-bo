@@ -13,6 +13,22 @@ export const listByCategory = query({
     category: categoryValidator,
     paginationOpts: paginationOptsValidator,
   },
+  returns: v.object({
+    page: v.array(
+      v.object({
+        _id: v.id("catalogItems"),
+        _creationTime: v.number(),
+        name: v.string(),
+        category: categoryValidator,
+        orderInSection: v.number(),
+        description: v.string(),
+        homepage: v.string(),
+        icons: v.optional(v.array(v.string())),
+      }),
+    ),
+    isDone: v.boolean(),
+    continueCursor: v.union(v.string(), v.null()),
+  }),
   handler: async (ctx, args) => {
     return await ctx.db
       .query("catalogItems")
@@ -29,6 +45,22 @@ export const listByName = query({
     name: v.string(),
     paginationOpts: paginationOptsValidator,
   },
+  returns: v.object({
+    page: v.array(
+      v.object({
+        _id: v.id("catalogItems"),
+        _creationTime: v.number(),
+        name: v.string(),
+        category: categoryValidator,
+        orderInSection: v.number(),
+        description: v.string(),
+        homepage: v.string(),
+        icons: v.optional(v.array(v.string())),
+      }),
+    ),
+    isDone: v.boolean(),
+    continueCursor: v.union(v.string(), v.null()),
+  }),
   handler: async (ctx, args) => {
     return await ctx.db
       .query("catalogItems")
@@ -44,6 +76,18 @@ export const searchByName = query({
     category: v.optional(categoryValidator),
     limit: v.number(),
   },
+  returns: v.array(
+    v.object({
+      _id: v.id("catalogItems"),
+      _creationTime: v.number(),
+      name: v.string(),
+      category: categoryValidator,
+      orderInSection: v.number(),
+      description: v.string(),
+      homepage: v.string(),
+      icons: v.optional(v.array(v.string())),
+    }),
+  ),
   handler: async (ctx, args) => {
     const { queryText, category, limit } = args;
 
@@ -52,8 +96,7 @@ export const searchByName = query({
       .withSearchIndex("search_name", (s) => {
         const scoped = s.search("name", queryText);
         return category ? scoped.eq("category", category) : scoped;
-      })
-      .order("asc");
+      });
 
     return await q.take(limit);
   },
