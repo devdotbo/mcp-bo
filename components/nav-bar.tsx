@@ -51,7 +51,7 @@ export function NavBar() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 md:gap-6">
             <Link href="/" className="font-tech text-2xl tracking-tight flex items-center">
-              <span className="text-primary font-bold">NEXUS</span>
+              <span className="text-primary font-bold">MCP.BO</span>
               <span className="text-xs ml-2 bg-primary/20 px-2 py-0.5 rounded-sm border border-primary/30">BETA</span>
             </Link>
             <nav className="hidden md:flex items-center gap-8">
