@@ -71,7 +71,7 @@ export const listByName = query({
   handler: async (ctx, args) => {
     const result = await ctx.db
       .query("catalogItems")
-      .withIndex("by_name", (q) => q.eq("name", args.name))
+      .withIndex("by_name_and_order", (q) => q.eq("name", args.name))
       .order("asc")
       .paginate(args.paginationOpts);
 
@@ -112,7 +112,9 @@ export const searchByName = query({
         return category ? scoped.eq("category", category) : scoped;
       });
 
-    return await q.take(limit);
+    const results = await q.take(limit);
+    // Ensure deterministic ordering for UI by orderInSection
+    return results.sort((a, b) => a.orderInSection - b.orderInSection);
   },
 });
 
