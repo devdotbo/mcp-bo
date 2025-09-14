@@ -22,8 +22,7 @@ export function NavBar() {
   }, [])
 
   useEffect(() => {
-    const targetDate = new Date()
-    targetDate.setDate(targetDate.getDate() + 30)
+    const targetDate = new Date(2027, 0, 1, 0, 0, 0)
 
     const interval = setInterval(() => {
       const now = new Date()
