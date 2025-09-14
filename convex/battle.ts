@@ -2,7 +2,7 @@ import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 const DEFAULT_HUMANITY_PERCENT = 52.42;
-const STEP_PERCENT = 0.1;
+const STEP_PERCENT = 0.01;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
