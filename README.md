@@ -152,4 +152,4 @@ PRs welcome. Please run `pnpm lint` and ensure the app builds locally (`pnpm bui
 
 ## License
 
-TBD.
+MIT License. See `LICENSE` for details.

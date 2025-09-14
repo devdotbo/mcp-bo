@@ -2,6 +2,7 @@
   "name": "mcp-bo-parser",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "start": "bun run.ts --input input/modelcontextprotocol-servers-README.md --output output/catalogItems.jsonl",
     "icons": "bun fetch-icons.ts --input output/catalogItems.jsonl --outDir output/icons",
