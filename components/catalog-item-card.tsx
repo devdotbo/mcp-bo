@@ -15,17 +15,17 @@ export type CatalogItem = {
 
 export function CatalogItemCard({ item }: { item: CatalogItem }) {
   return (
-    <Card className="h-full border-border/40">
+    <Card className="h-full border-border/40 overflow-hidden">
       <CardContent className="p-6 space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="font-medium text-lg">{item.name}</h3>
+              <h3 className="font-medium text-lg text-left break-words line-clamp-1">{item.name}</h3>
               <Badge variant="secondary" className="text-xs">
                 {item.category === "official_integrations" ? "Official" : "Community"}
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground line-clamp-3">{item.description}</p>
+            <p className="text-sm text-muted-foreground line-clamp-3 break-words text-left">{item.description}</p>
           </div>
           {item.icons?.[0] && (
             // eslint-disable-next-line @next/next/no-img-element

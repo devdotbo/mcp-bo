@@ -33,10 +33,10 @@ export function ServerCard({ server, featured = false }: ServerCardProps) {
         <div className={`h-1 w-full bg-gradient-to-r ${statusColor}`}></div>
 
         <CardContent className="p-6 relative">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1.5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="space-y-1.5 flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="font-medium text-lg group-hover:text-primary transition-colors duration-300">
+                <h3 className="font-medium text-lg group-hover:text-primary transition-colors duration-300 text-left truncate">
                   {server.name}
                 </h3>
                 {!server.humanControlled && (
@@ -45,9 +45,9 @@ export function ServerCard({ server, featured = false }: ServerCardProps) {
                   </Badge>
                 )}
               </div>
-              <p className="text-muted-foreground text-sm">{server.description}</p>
+              <p className="text-muted-foreground text-sm break-words line-clamp-3 text-left">{server.description}</p>
             </div>
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-1 shrink-0">
               <div
                 className={`h-3 w-3 rounded-full bg-gradient-to-r ${statusColor} shadow-lg shadow-primary/10 ring-1 ring-white/10`}
               />
@@ -105,7 +105,7 @@ export function ServerCard({ server, featured = false }: ServerCardProps) {
         </CardContent>
 
         <CardFooter className="px-6 pb-6 pt-0 flex justify-between relative">
-          <div className="text-xs text-muted-foreground">Added {new Date(server.dateAdded).toLocaleDateString()}</div>
+          <div className="text-xs text-muted-foreground text-left">Added {new Date(server.dateAdded).toLocaleDateString()}</div>
 
           {featured && (
             <Badge variant="outline" className="text-xs border-primary/30 text-primary bg-primary/5">
