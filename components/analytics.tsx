@@ -14,8 +14,8 @@ export function Analytics() {
     <div className="fixed bottom-4 left-4 z-10 p-3 bg-black/80 border border-primary/30 rounded-lg backdrop-blur-md text-xs font-mono hidden md:block">
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-green-400">TOTAL SERVERS: {totalServers.toLocaleString()}</span>
+          <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span className="text-amber-300">TOTAL SERVERS: {totalServers.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-official animate-pulse"></span>
