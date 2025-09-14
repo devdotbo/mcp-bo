@@ -30,6 +30,19 @@ export default defineSchema({
     email: v.string(),
     source: v.optional(v.string()),
   }).index("by_email", ["email"]),
+
+  // Single battle state document identified by slug (e.g., "human_vs_ai")
+  battles: defineTable({
+    slug: v.string(),
+    humanityPercent: v.number(),
+  }).index("by_slug", ["slug"]),
+
+  // Track last choice per session and battle slug
+  sessionVotes: defineTable({
+    sessionId: v.string(),
+    slug: v.string(),
+    lastChoice: v.union(v.literal("human"), v.literal("ai")),
+  }).index("by_session_and_slug", ["sessionId", "slug"]),
 });
 
 
