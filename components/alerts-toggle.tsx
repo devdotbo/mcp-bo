@@ -25,7 +25,7 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
       if (stored === "true") {
         setEnabled(true)
       }
-    } catch (_) {
+    } catch {
       // ignore
     }
   }, [])
@@ -34,7 +34,7 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
     if (!mounted) return
     try {
       window.localStorage.setItem(STORAGE_KEY, enabled ? "true" : "false")
-    } catch (_) {
+    } catch {
       // ignore
     }
   }, [enabled, mounted])
@@ -73,7 +73,7 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
             : "Your browser doesn't support notifications.",
       })
     }
-  }, [requestPermissionIfNeeded])
+  }, [requestPermissionIfNeeded, toast])
 
   // Basic layouts for desktop inline vs mobile menu
   const isInline = variant === "inline"

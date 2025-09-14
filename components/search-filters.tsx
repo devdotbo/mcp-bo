@@ -41,7 +41,8 @@ export function SearchFilters({
   selectedHumanControlled,
 }: SearchFiltersProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [isAdvancedOpen, setIsAdvancedOpen] = useState(false)
+  // Advanced panel is not used currently; keep for future expansion without unused warnings
+  // const [isAdvancedOpen, setIsAdvancedOpen] = useState(false)
 
   const categories: { value: ServerCategory; label: string }[] = [
     { value: "general", label: "General" },
@@ -256,7 +257,7 @@ export function SearchFilters({
               variant="secondary"
               className="flex items-center gap-1 bg-black/40 hover:bg-black/60 transition-colors duration-300 border border-border/40"
             >
-              "{searchQuery}"
+              &quot;{searchQuery}&quot;
               <Button
                 variant="ghost"
                 size="icon"

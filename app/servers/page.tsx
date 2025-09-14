@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { usePaginatedQuery, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { CatalogItemCard, type CatalogItem } from "@/components/catalog-item-card"
+import type { Doc } from "@/convex/_generated/dataModel"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -35,16 +36,18 @@ export default function ServersV2Page() {
     { initialNumItems: INITIAL_ITEMS },
   )
 
+  const categoryFilter: CatalogItem["category"] | undefined =
+    activeFilter === "all" ? undefined : activeFilter
   const searchResults = useQuery(api.catalog.searchByName, {
     queryText: searchQuery,
-    category: activeFilter === "all" ? undefined : (activeFilter as any),
+    category: categoryFilter,
     limit: 12,
   })
 
   const visibleItems: Array<CatalogItem> = useMemo(() => {
     if (searchQuery.trim().length > 0) {
       // map search results to CatalogItem type shape
-      return (searchResults ?? []).map((d: any) => ({
+      return (searchResults ?? []).map((d: Doc<"catalogItems">) => ({
         _id: d._id,
         _creationTime: d._creationTime,
         name: d.name,
@@ -54,7 +57,7 @@ export default function ServersV2Page() {
         homepage: d.homepage,
       }))
     }
-    return (items ?? []).map((d: any) => ({
+    return (items ?? []).map((d: Doc<"catalogItems">) => ({
       _id: d._id,
       _creationTime: d._creationTime,
       name: d.name,
@@ -126,7 +129,7 @@ export default function ServersV2Page() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[200px]">
-                <DropdownMenuRadioGroup value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
+                <DropdownMenuRadioGroup value={activeFilter} onValueChange={(v) => setActiveFilter(v as "all" | CatalogItem["category"])}>
                   <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="official_integrations">Official</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="community_servers">Community</DropdownMenuRadioItem>
