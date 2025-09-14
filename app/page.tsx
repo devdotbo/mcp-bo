@@ -23,9 +23,9 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Shield className="h-5 w-5 text-primary" />
-                <h2 className="text-4xl font-tech font-bold tracking-tight">Featured Servers</h2>
+                <h2 className="text-4xl font-tech font-bold tracking-tight">Featured Models</h2>
               </div>
-              <p className="text-muted-foreground">Critical MCP servers you need to monitor</p>
+              <p className="text-muted-foreground">Critical LLMs you need to monitor</p>
             </div>
             <Button asChild variant="ghost" size="sm" className="gap-1 group font-tech">
               <Link href="/servers">
