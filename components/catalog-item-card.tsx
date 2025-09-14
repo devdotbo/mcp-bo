@@ -24,7 +24,7 @@ export function CatalogItemCard({ item }: { item: CatalogItem }) {
             rel="noopener noreferrer"
             className="grid grid-cols-[1fr_auto] items-start gap-3 group"
           >
-            <h3 className="font-medium text-lg text-left break-words line-clamp-1 min-w-0 group-hover:text-primary">
+            <h3 className="font-medium text-lg text-left break-words line-clamp-1 min-w-0 group-hover:text-primary underline underline-offset-4 decoration-muted-foreground/40 group-hover:decoration-primary">
               {item.name}
             </h3>
             <div className="flex items-start justify-end gap-2">
