@@ -92,9 +92,16 @@ export function NexusHero() {
               asChild
               variant="outline"
               size="lg"
-              className="border-primary/30 text-primary hover:bg-primary/5 group font-tech"
+              disabled
+              className="border-muted-foreground/30 text-muted-foreground opacity-50 cursor-not-allowed group font-tech"
             >
-              <Link href="#" className="flex items-center">
+              <Link
+                href="#"
+                aria-disabled="true"
+                tabIndex={-1}
+                onClick={(e) => e.preventDefault()}
+                className="flex items-center pointer-events-none"
+              >
                 <Brain className="mr-2 h-4 w-4" />
                 AI Capability Index
               </Link>
