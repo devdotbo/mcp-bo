@@ -5,10 +5,9 @@ import { usePaginatedQuery, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { CatalogItemCard, type CatalogItem } from "@/components/catalog-item-card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Search, Menu } from "lucide-react"
 
 const PAGE_SIZE = 24
 
@@ -17,6 +16,17 @@ export default function ServersV2Page() {
     "all",
   )
   const [searchQuery, setSearchQuery] = useState("")
+
+  const filterLabel = useMemo(() => {
+    switch (activeFilter) {
+      case "official_integrations":
+        return "Official"
+      case "community_servers":
+        return "Community"
+      default:
+        return "All"
+    }
+  }, [activeFilter])
 
   const { results: items, status, loadMore } = usePaginatedQuery(
     activeFilter === "all" ? api.catalog.listAll : api.catalog.listByCategory,
@@ -77,16 +87,23 @@ export default function ServersV2Page() {
           />
         </div>
         <div className="w-[200px]">
-          <Select value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="official_integrations">Official</SelectItem>
-              <SelectItem value="community_servers">Community</SelectItem>
-            </SelectContent>
-          </Select>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-full justify-between">
+                <span className="font-tech">Filter: {filterLabel}</span>
+                <Menu className="h-4 w-4 opacity-70" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
+                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="official_integrations">Official</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="community_servers">Community</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
