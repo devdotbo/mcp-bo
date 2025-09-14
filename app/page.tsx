@@ -1,8 +1,8 @@
-import { getFeaturedServers, getRecentServers } from "@/lib/data"
+import { getFeaturedServers } from "@/lib/data"
 import { ServerCard } from "@/components/server-card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowRight, Brain, Shield, Zap } from "lucide-react"
+import { ArrowRight, Shield } from "lucide-react"
 import { NexusHero } from "@/components/nexus-hero"
 import { Analytics } from "@/components/analytics"
 import { HumanAiBattle } from "@/components/human-ai-battle"
@@ -10,7 +10,6 @@ import { WorkInProgressSection } from "@/components/work-in-progress-section"
 
 export default function Home() {
   const featuredServers = getFeaturedServers()
-  const recentServers = getRecentServers()
 
   return (
     <div className="relative">
@@ -44,6 +43,7 @@ export default function Home() {
           </section>
         </WorkInProgressSection>
 
+        {/*
         <WorkInProgressSection ctaHref="/servers">
           <section className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5 rounded-xl -z-10"></div>
@@ -76,7 +76,9 @@ export default function Home() {
             </div>
           </section>
         </WorkInProgressSection>
+        */}
 
+        {/*
         <WorkInProgressSection ctaHref="/servers">
           <section className="space-y-8">
           <div className="flex items-end justify-between">
@@ -101,6 +103,7 @@ export default function Home() {
           </div>
           </section>
         </WorkInProgressSection>
+        */}
       </div>
     </div>
   )
