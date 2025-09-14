@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Brain, Users } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -67,16 +66,16 @@ export function HumanAiBattle() {
     >
       <h3 className="text-sm font-bold mb-2 text-center font-tech">HUMANITY vs AI</h3>
       <div className="space-y-4">
-        <div className="relative h-8">
-          <Progress
-            value={humanProgress}
-            className={`h-full ${isLightTheme ? "bg-red-200" : "bg-red-900/50"}`}
-            indicatorClassName="bg-gradient-to-r from-orange-500 to-red-500"
+        <div
+          className={`relative h-8 rounded-full overflow-hidden ${isLightTheme ? "bg-gray-200" : "bg-white/10"}`}
+        >
+          <div
+            className="absolute left-0 top-0 h-full bg-gradient-to-r from-orange-500 to-red-500 transition-[width] duration-500 rounded-l-full"
+            style={{ width: `${humanProgress}%` }}
           />
-          <Progress
-            value={aiProgress}
-            className={`h-full ${isLightTheme ? "bg-blue-200" : "bg-blue-900/50"} absolute top-0 right-0`}
-            indicatorClassName="bg-gradient-to-r from-blue-500 to-cyan-500 ml-auto"
+          <div
+            className="absolute right-0 top-0 h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-[width] duration-500 rounded-r-full"
+            style={{ width: `${aiProgress}%` }}
           />
           <div
             className={`absolute inset-0 flex justify-center items-center font-mono text-xs font-bold ${isLightTheme ? "text-gray-800" : "text-white"}`}
@@ -88,13 +87,13 @@ export function HumanAiBattle() {
         <div className="flex justify-between gap-2">
           <Button
             onClick={handleVoteHuman}
-            className="flex-1 h-8 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-xs font-tech"
+            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-xs font-tech"
           >
             <Users className="h-3 w-3 mr-1" /> VOTE HUMAN
           </Button>
           <Button
             onClick={handleVoteAI}
-            className="flex-1 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-xs font-tech"
+            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-xs font-tech"
           >
             <Brain className="h-3 w-3 mr-1" /> VOTE AI
           </Button>

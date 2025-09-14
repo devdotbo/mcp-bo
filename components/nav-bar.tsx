@@ -4,8 +4,9 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useState, useEffect } from "react"
-import { Menu, X, Shield, Bell, ChevronRight } from "lucide-react"
+import { Menu, X, Shield, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { AlertsToggle } from "@/components/alerts-toggle"
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -85,14 +86,7 @@ export function NavBar() {
               </div>
             </div>
             <ThemeToggle />
-            <Button
-              variant="outline"
-              size="sm"
-              className="hidden md:flex gap-1 border-primary/50 text-primary font-tech"
-            >
-              <Bell className="h-3.5 w-3.5" />
-              Alerts
-            </Button>
+            <AlertsToggle />
             <Button
               variant="default"
               size="sm"
@@ -146,14 +140,7 @@ export function NavBar() {
                 Manifesto
               </Link>
               <div className="flex flex-col gap-2 pt-2 border-t border-border/40">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="justify-start gap-1 border-primary/50 text-primary font-tech"
-                >
-                  <Bell className="h-3.5 w-3.5" />
-                  Alerts
-                </Button>
+                <AlertsToggle variant="menu" />
                 <Button
                   variant="default"
                   size="sm"
