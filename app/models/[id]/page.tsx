@@ -85,7 +85,7 @@ export default function ServerDetailPage() {
                 variant="outline"
                 className="border-muted/50 hover:border-primary/30 transition-colors duration-300 font-tech"
               >
-                Connect to Server
+                Connect to Model
               </Button>
             </div>
           </div>

@@ -88,10 +88,10 @@ export default function ServersPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
-          <h1 className="text-4xl font-tech font-bold tracking-tight">MCP Server Directory</h1>
+          <h1 className="text-4xl font-tech font-bold tracking-tight">Models Directory</h1>
         </div>
         <p className="text-muted-foreground text-lg max-w-3xl">
-          Monitor and track Model Context Protocol servers across the network. Stay vigilant against unaligned AI
+          Monitor and track models across the network. Stay vigilant against unaligned AI
           systems.
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function ServersPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-card border border-border/40 rounded-lg p-4 text-center">
           <div className="text-2xl font-mono font-bold text-primary">{stats.total}</div>
-          <div className="text-xs text-muted-foreground uppercase font-tech">Total Servers</div>
+          <div className="text-xs text-muted-foreground uppercase font-tech">Total Models</div>
         </div>
         <div className="bg-card border border-border/40 rounded-lg p-4 text-center">
           <div className="text-2xl font-mono font-bold text-green-500">{stats.online}</div>
@@ -178,7 +178,7 @@ export default function ServersPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground font-tech">
-            Showing {filteredAndSortedServers.length} of {servers.length} servers
+            Showing {filteredAndSortedServers.length} of {servers.length} models
           </p>
           {filteredAndSortedServers.length === 0 && (
             <Badge variant="outline" className="font-tech">
@@ -197,7 +197,7 @@ export default function ServersPage() {
           <div className="text-center py-12 space-y-4">
             <Zap className="h-12 w-12 text-muted-foreground mx-auto" />
             <div>
-              <h3 className="text-lg font-tech font-medium">No servers found</h3>
+              <h3 className="text-lg font-tech font-medium">No models found</h3>
               <p className="text-muted-foreground">Try adjusting your search criteria or filters.</p>
             </div>
           </div>
