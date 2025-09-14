@@ -6,10 +6,11 @@ import { api } from "@/convex/_generated/api"
 import { CatalogItemCard, type CatalogItem } from "@/components/catalog-item-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, Menu } from "lucide-react"
 
 const PAGE_SIZE = 24
+const INITIAL_ITEMS = 12
 
 export default function ServersV2Page() {
   const [activeFilter, setActiveFilter] = useState<"all" | "official_integrations" | "community_servers">(
@@ -31,7 +32,7 @@ export default function ServersV2Page() {
   const { results: items, status, loadMore } = usePaginatedQuery(
     activeFilter === "all" ? api.catalog.listAll : api.catalog.listByCategory,
     activeFilter === "all" ? {} : { category: activeFilter },
-    { initialNumItems: PAGE_SIZE },
+    { initialNumItems: INITIAL_ITEMS },
   )
 
   const searchResults = useQuery(api.catalog.searchByName, {
@@ -83,27 +84,25 @@ export default function ServersV2Page() {
             placeholder="Search by name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="pl-9 pr-36"
           />
-        </div>
-        <div className="w-[200px]">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
-                <span className="font-tech">Filter: {filterLabel}</span>
-                <Menu className="h-4 w-4 opacity-70" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[200px]">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
-                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="official_integrations">Official</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="community_servers">Community</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="absolute inset-y-1 right-1 flex items-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8 justify-between">
+                  <span className="font-tech">Filter: {filterLabel}</span>
+                  <Menu className="h-4 w-4 opacity-70 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[200px]">
+                <DropdownMenuRadioGroup value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
+                  <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="official_integrations">Official</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="community_servers">Community</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 
