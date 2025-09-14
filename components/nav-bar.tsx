@@ -59,12 +59,12 @@ export function NavBar() {
                 Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
-              <Link href="/servers" className="text-sm font-tech transition-all hover:text-primary relative group">
-                Servers
+              <Link href="/models" className="text-sm font-tech transition-all hover:text-primary relative group">
+                Models
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
-              <Link href="/servers/v2" className="text-sm font-tech transition-all hover:text-primary relative group">
-                Servers v2
+              <Link href="/servers" className="text-sm font-tech transition-all hover:text-primary relative group">
+                Servers
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
               <Link href="#" className="text-sm font-tech transition-all hover:text-primary relative group">
