@@ -40,10 +40,10 @@ export function WorkInProgressSection({
 
       {/* Overlay */}
       <div className="absolute inset-0 z-40 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
         <div
           className={cn(
-            "relative z-10 w-[min(96vw,560px)] rounded-xl border border-border/60 bg-background/85 backdrop-blur-xl p-6 shadow-2xl",
+            "relative z-10 w-[min(96vw,560px)] rounded-xl border border-border/60 bg-background/90 backdrop-blur-sm p-6 shadow-2xl",
           )}
         >
           <div className="flex items-start gap-4">
