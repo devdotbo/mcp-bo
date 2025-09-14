@@ -7,26 +7,26 @@ import { CatalogItemCard, type CatalogItem } from "@/components/catalog-item-car
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Search } from "lucide-react"
 
 const PAGE_SIZE = 24
 
 export default function ServersV2Page() {
-  const [activeCategory, setActiveCategory] = useState<"official_integrations" | "community_servers">(
-    "official_integrations",
+  const [activeFilter, setActiveFilter] = useState<"all" | "official_integrations" | "community_servers">(
+    "all",
   )
   const [searchQuery, setSearchQuery] = useState("")
 
   const { results: items, status, loadMore } = usePaginatedQuery(
-    api.catalog.listByCategory,
-    { category: activeCategory },
+    activeFilter === "all" ? api.catalog.listAll : api.catalog.listByCategory,
+    activeFilter === "all" ? {} : { category: activeFilter },
     { initialNumItems: PAGE_SIZE },
   )
 
   const searchResults = useQuery(api.catalog.searchByName, {
     queryText: searchQuery,
-    category: undefined,
+    category: activeFilter === "all" ? undefined : (activeFilter as any),
     limit: 12,
   })
 
@@ -76,12 +76,18 @@ export default function ServersV2Page() {
             className="pl-9"
           />
         </div>
-        <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as any)}>
-          <TabsList>
-            <TabsTrigger value="official_integrations">Official</TabsTrigger>
-            <TabsTrigger value="community_servers">Community</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="w-[200px]">
+          <Select value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Filter by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="official_integrations">Official</SelectItem>
+              <SelectItem value="community_servers">Community</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
 
