@@ -1,64 +1,36 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Brain, Users } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useSessionQuery, useSessionMutation } from "convex-helpers/react/sessions"
+import { api } from "@/convex/_generated/api"
+
+const SLUG = "human_vs_ai"
 
 export function HumanAiBattle() {
-  const [humanProgress, setHumanProgress] = useState(52)
-  const [aiProgress, setAiProgress] = useState(48)
-  const [isAnimating, setIsAnimating] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
 
-  // Handle mounting to prevent hydration mismatch
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    // Simulate small fluctuations in the battle
-    const interval = setInterval(() => {
-      const randomChange = Math.random() * 0.4 - 0.2 // Between -0.2 and 0.2
+  const battle = useSessionQuery(api.battle.getBattle, { slug: SLUG })
+  const voteMutation = useSessionMutation(api.battle.vote)
 
-      setHumanProgress((prev) => {
-        const newValue = prev + randomChange
-        // Keep within bounds and ensure they sum to 100
-        if (newValue >= 40 && newValue <= 60) {
-          setAiProgress(100 - newValue)
-          return newValue
-        }
-        return prev
-      })
-    }, 3000)
+  const humanityPercent = useMemo(() => {
+    return battle?.humanityPercent ?? 52.42
+  }, [battle])
+  const aiPercent = useMemo(() => 100 - humanityPercent, [humanityPercent])
 
-    return () => clearInterval(interval)
-  }, [])
+  const lastChoice = battle?.lastChoice
+  const isLightTheme = theme === "light"
 
-  const handleVoteHuman = () => {
-    if (isAnimating) return
-
-    setIsAnimating(true)
-    setHumanProgress((prev) => Math.min(prev + 0.5, 60))
-    setAiProgress((prev) => Math.max(prev - 0.5, 40))
-
-    setTimeout(() => setIsAnimating(false), 1000)
-  }
-
-  const handleVoteAI = () => {
-    if (isAnimating) return
-
-    setIsAnimating(true)
-    setAiProgress((prev) => Math.min(prev + 0.5, 60))
-    setHumanProgress((prev) => Math.max(prev - 0.5, 40))
-
-    setTimeout(() => setIsAnimating(false), 1000)
-  }
+  const [isAnimating, setIsAnimating] = useState(false)
 
   if (!mounted) return null
-
-  const isLightTheme = theme === "light"
 
   return (
     <div
@@ -71,29 +43,41 @@ export function HumanAiBattle() {
         >
           <div
             className="absolute left-0 top-0 h-full bg-gradient-to-r from-orange-500 to-red-500 transition-[width] duration-500 rounded-l-full"
-            style={{ width: `${humanProgress}%` }}
+            style={{ width: `${humanityPercent}%` }}
           />
           <div
             className="absolute right-0 top-0 h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-[width] duration-500 rounded-r-full"
-            style={{ width: `${aiProgress}%` }}
+            style={{ width: `${aiPercent}%` }}
           />
           <div
             className={`absolute inset-0 flex justify-center items-center font-mono text-xs font-bold ${isLightTheme ? "text-gray-800" : "text-white"}`}
           >
-            {humanProgress.toFixed(1)}% : {aiProgress.toFixed(1)}%
+            {humanityPercent.toFixed(2)}% : {aiPercent.toFixed(2)}%
           </div>
         </div>
 
         <div className="flex justify-between gap-2">
           <Button
-            onClick={handleVoteHuman}
-            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-xs font-tech"
+            onClick={async () => {
+              if (isAnimating) return
+              setIsAnimating(true)
+              await voteMutation({ slug: SLUG, choice: "human" })
+              setTimeout(() => setIsAnimating(false), 500)
+            }}
+            disabled={lastChoice === "human"}
+            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-xs font-tech disabled:opacity-50"
           >
             <Users className="h-3 w-3 mr-1" /> VOTE HUMAN
           </Button>
           <Button
-            onClick={handleVoteAI}
-            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-xs font-tech"
+            onClick={async () => {
+              if (isAnimating) return
+              setIsAnimating(true)
+              await voteMutation({ slug: SLUG, choice: "ai" })
+              setTimeout(() => setIsAnimating(false), 500)
+            }}
+            disabled={lastChoice === "ai"}
+            className="flex-1 min-w-0 h-8 px-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-xs font-tech disabled:opacity-50"
           >
             <Brain className="h-3 w-3 mr-1" /> VOTE AI
           </Button>

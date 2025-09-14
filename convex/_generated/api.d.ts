@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as battle from "../battle.js";
 import type * as catalog from "../catalog.js";
 import type * as newsletter from "../newsletter.js";
 
@@ -25,6 +26,7 @@ import type * as newsletter from "../newsletter.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  battle: typeof battle;
   catalog: typeof catalog;
   newsletter: typeof newsletter;
 }>;
