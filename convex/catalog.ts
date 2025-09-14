@@ -47,6 +47,43 @@ export const listByCategory = query({
   },
 });
 
+// List all catalog items regardless of category in a stable order
+export const listAll = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  returns: v.object({
+    page: v.array(
+      v.object({
+        _id: v.id("catalogItems"),
+        _creationTime: v.number(),
+        name: v.string(),
+        category: categoryValidator,
+        orderInSection: v.number(),
+        description: v.string(),
+        homepage: v.string(),
+        icons: v.optional(v.array(v.string())),
+      }),
+    ),
+    isDone: v.boolean(),
+    continueCursor: v.union(v.string(), v.null()),
+  }),
+  handler: async (ctx, args) => {
+    // Use the by_name_and_order index to provide a deterministic order across categories
+    const result = await ctx.db
+      .query("catalogItems")
+      .withIndex("by_name_and_order")
+      .order("asc")
+      .paginate(args.paginationOpts);
+
+    return {
+      page: result.page,
+      isDone: result.isDone,
+      continueCursor: result.continueCursor,
+    };
+  },
+});
+
 export const listByName = query({
   args: {
     name: v.string(),
