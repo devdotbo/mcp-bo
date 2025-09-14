@@ -7,6 +7,7 @@ import { SearchFilters } from "@/components/search-filters"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Shield, AlertTriangle, Zap } from "lucide-react"
+import WorkInProgressGate from "@/components/work-in-progress-gate"
 
 export default function ServersPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -84,6 +85,14 @@ export default function ServersPage() {
 
   return (
     <div className="container py-12 space-y-8">
+      <WorkInProgressGate
+        pageId="models-directory"
+        ctaHref="/servers"
+        ctaLabel="Go to Servers (Boot)"
+        title="Models Directory under construction"
+        description="This page is being built. Jump to the Servers section to boot and manage servers, or preview this page in read-only mode."
+        showPreview={true}
+      />
       {/* Header */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
