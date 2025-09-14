@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
+import { newsletterSchema } from "@/lib/schemas"
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -52,17 +53,14 @@ export function NavBar() {
   }, [])
 
   const handleSubmit = async () => {
-    const trimmed = email.trim()
-    if (!trimmed || !trimmed.includes("@")) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-      })
+    const parsed = newsletterSchema.safeParse({ email, source: "navbar" })
+    if (!parsed.success) {
+      toast({ title: "Invalid email", description: parsed.error.issues[0]?.message ?? "Fix errors and try again." })
       return
     }
     try {
       setSubmitting(true)
-      const result = await subscribe({ email: trimmed, source: "navbar" })
+      const result = await subscribe(parsed.data)
       if (result.created) {
         toast({ title: "Welcome aboard", description: "You are now on the Resistance list." })
       } else {
