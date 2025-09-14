@@ -29,7 +29,10 @@ export function CatalogItemCard({ item }: { item: CatalogItem }) {
                 {item.name}
               </h3>
               <div className="flex items-start justify-end gap-2">
-                <Badge variant="secondary" className="text-xs whitespace-nowrap">
+                <Badge
+                  variant={item.category === "official_integrations" ? "default" : "secondary"}
+                  className="text-xs whitespace-nowrap"
+                >
                   {item.category === "official_integrations" ? "Official" : "Community"}
                 </Badge>
                 {item.icons?.[0] && (
