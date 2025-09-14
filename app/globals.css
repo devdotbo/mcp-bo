@@ -33,6 +33,10 @@
     --ring: 260 100% 60%;
 
     --radius: 0.5rem;
+
+    /* Category colors */
+    --official: 217 91% 60%; /* blue-500 like */
+    --community: 174 60% 45%; /* teal-500 like (softer than red) */
   }
 
   .dark {
@@ -63,6 +67,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 260 100% 65%;
+
+    /* Category colors (dark) */
+    --official: 217 91% 60%;
+    --community: 174 60% 45%;
   }
 }
 

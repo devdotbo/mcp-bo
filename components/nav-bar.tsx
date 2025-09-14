@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
-import { newsletterSchema } from "@/lib/schemas"
+import { newsletterSchema, emailSchema } from "@/lib/schemas"
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,6 +21,7 @@ export function NavBar() {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [newsletterOpen, setNewsletterOpen] = useState(false)
   const [email, setEmail] = useState("")
+  const [emailError, setEmailError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const subscribe = useMutation(api.newsletter.subscribe)
   const { toast } = useToast()
@@ -55,7 +56,9 @@ export function NavBar() {
   const handleSubmit = async () => {
     const parsed = newsletterSchema.safeParse({ email, source: "navbar" })
     if (!parsed.success) {
-      toast({ title: "Invalid email", description: parsed.error.issues[0]?.message ?? "Fix errors and try again." })
+      const message = parsed.error.issues[0]?.message ?? "Fix errors and try again."
+      setEmailError(message)
+      toast({ title: "Invalid email", description: message })
       return
     }
     try {
@@ -67,6 +70,7 @@ export function NavBar() {
         toast({ title: "Already enlisted", description: "This email is already subscribed." })
       }
       setEmail("")
+      setEmailError(null)
       setNewsletterOpen(false)
     } catch (err) {
       toast({ title: "Submission failed", description: "Please try again in a moment." })
@@ -207,7 +211,16 @@ export function NavBar() {
                 type="email"
                 placeholder="you@domain.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value
+                  setEmail(value)
+                  const res = emailSchema.safeParse(value)
+                  setEmailError(res.success || value.length === 0 ? null : res.error.issues[0]?.message ?? "Invalid email")
+                }}
+                onBlur={() => {
+                  const res = emailSchema.safeParse(email)
+                  setEmailError(res.success || email.length === 0 ? null : res.error.issues[0]?.message ?? "Invalid email")
+                }}
                 disabled={submitting}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -215,6 +228,9 @@ export function NavBar() {
                   }
                 }}
               />
+              {emailError && (
+                <p className="text-xs text-red-500">{emailError}</p>
+              )}
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="ghost" onClick={() => setNewsletterOpen(false)} disabled={submitting}>
@@ -222,7 +238,7 @@ export function NavBar() {
               </Button>
               <Button
                 onClick={() => void handleSubmit()}
-                disabled={submitting || email.trim().length === 0}
+                disabled={submitting || !!emailError || email.trim().length === 0}
               >
                 {submitting ? "Submitting..." : "Join"}
               </Button>

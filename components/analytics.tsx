@@ -18,12 +18,12 @@ export function Analytics() {
           <span className="text-green-400">TOTAL SERVERS: {totalServers.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
-          <span className="text-blue-400">OFFICIAL: {officialCount.toLocaleString()}</span>
+          <span className="h-2 w-2 rounded-full bg-official animate-pulse"></span>
+          <span className="text-official">OFFICIAL: {officialCount.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-          <span className="text-red-400">COMMUNITY: {communityCount.toLocaleString()}</span>
+          <span className="h-2 w-2 rounded-full bg-community animate-pulse"></span>
+          <span className="text-community">COMMUNITY: {communityCount.toLocaleString()}</span>
         </div>
       </div>
     </div>
