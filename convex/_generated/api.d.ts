@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as catalog from "../catalog.js";
+import type * as newsletter from "../newsletter.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,6 +26,7 @@ import type * as catalog from "../catalog.js";
  */
 declare const fullApi: ApiFromModules<{
   catalog: typeof catalog;
+  newsletter: typeof newsletter;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
