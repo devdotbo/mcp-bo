@@ -88,7 +88,9 @@ function toRawGitHubUrlIfNeeded(urlStr: string): string {
         return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
       }
     }
-  } catch {}
+  } catch (err) {
+    console.error("Failed to convert GitHub URL to raw", err)
+  }
   return urlStr;
 }
 
@@ -147,7 +149,7 @@ async function main() {
       processed += 1;
       if (limit && processed >= limit) break;
     } catch (err) {
-      console.warn(`Line skipped: ${(err as Error).message}`);
+      console.error("Line skipped during icon fetch", err);
       continue;
     }
   }

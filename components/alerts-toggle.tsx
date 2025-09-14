@@ -25,8 +25,8 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
       if (stored === "true") {
         setEnabled(true)
       }
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error("Failed to read alerts setting from localStorage", err)
     }
   }, [])
 
@@ -34,8 +34,8 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
     if (!mounted) return
     try {
       window.localStorage.setItem(STORAGE_KEY, enabled ? "true" : "false")
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error("Failed to write alerts setting to localStorage", err)
     }
   }, [enabled, mounted])
 

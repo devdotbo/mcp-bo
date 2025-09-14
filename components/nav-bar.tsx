@@ -73,6 +73,7 @@ export function NavBar() {
       setEmailError(null)
       setNewsletterOpen(false)
     } catch (err) {
+      console.error("Newsletter subscribe failed", err)
       toast({ title: "Submission failed", description: "Please try again in a moment." })
     } finally {
       setSubmitting(false)

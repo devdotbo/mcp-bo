@@ -28,7 +28,8 @@ export function isRepoHost(url: string): boolean {
   try {
     const u = new URL(url);
     return /^(github\.com|gitlab\.com|bitbucket\.org)$/i.test(u.hostname);
-  } catch {
+  } catch (err) {
+    console.error("Invalid URL in isRepoHost", err);
     return false;
   }
 }
