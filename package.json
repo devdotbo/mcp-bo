@@ -10,6 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
+    "@convex-dev/auth": "^0.0.89",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "1.2.2",
