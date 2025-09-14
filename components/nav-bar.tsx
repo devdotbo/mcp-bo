@@ -7,11 +7,22 @@ import { useState, useEffect } from "react"
 import { Menu, X, Shield, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AlertsToggle } from "@/components/alerts-toggle"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [newsletterOpen, setNewsletterOpen] = useState(false)
+  const [email, setEmail] = useState("")
+  const [submitting, setSubmitting] = useState(false)
+  const subscribe = useMutation(api.newsletter.subscribe)
+  const { toast } = useToast()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +50,32 @@ export function NavBar() {
 
     return () => clearInterval(interval)
   }, [])
+
+  const handleSubmit = async () => {
+    const trimmed = email.trim()
+    if (!trimmed || !trimmed.includes("@")) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+      })
+      return
+    }
+    try {
+      setSubmitting(true)
+      const result = await subscribe({ email: trimmed, source: "navbar" })
+      if (result.created) {
+        toast({ title: "Welcome aboard", description: "You are now on the Resistance list." })
+      } else {
+        toast({ title: "Already enlisted", description: "This email is already subscribed." })
+      }
+      setEmail("")
+      setNewsletterOpen(false)
+    } catch (err) {
+      toast({ title: "Submission failed", description: "Please try again in a moment." })
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -91,6 +128,7 @@ export function NavBar() {
               variant="default"
               size="sm"
               className="hidden md:flex gap-1 bg-primary hover:bg-primary/90 text-primary-foreground group font-tech"
+              onClick={() => setNewsletterOpen(true)}
             >
               <Shield className="h-3.5 w-3.5 group-hover:animate-pulse" />
               Join Resistance
@@ -145,6 +183,7 @@ export function NavBar() {
                   variant="default"
                   size="sm"
                   className="justify-start gap-1 bg-primary hover:bg-primary/90 text-primary-foreground font-tech"
+                  onClick={() => setNewsletterOpen(true)}
                 >
                   <Shield className="h-3.5 w-3.5" />
                   Join Resistance
@@ -154,6 +193,45 @@ export function NavBar() {
           </div>
         )}
       </header>
+      <Dialog open={newsletterOpen} onOpenChange={setNewsletterOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="font-tech">Join the Resistance Newsletter</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Get mission updates, server intel, and MCP news. No spam.
+            </p>
+            <div className="space-y-2">
+              <Label htmlFor="newsletter-email">Email</Label>
+              <Input
+                id="newsletter-email"
+                type="email"
+                placeholder="you@domain.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    void handleSubmit()
+                  }
+                }}
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="ghost" onClick={() => setNewsletterOpen(false)} disabled={submitting}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => void handleSubmit()}
+                disabled={submitting || email.trim().length === 0}
+              >
+                {submitting ? "Submitting..." : "Join"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

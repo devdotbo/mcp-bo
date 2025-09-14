@@ -1,5 +1,6 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { newsletterSchema } from "../lib/schemas";
 
 export const subscribe = mutation({
   args: {
@@ -11,12 +12,11 @@ export const subscribe = mutation({
     _id: v.id("newsletterSignups"),
   }),
   handler: async (ctx, args) => {
-    const normalized = args.email.trim().toLowerCase();
-
-    // Minimal server-side validation
-    if (!normalized.includes("@") || normalized.startsWith("@") || normalized.endsWith("@")) {
-      throw new Error("Invalid email address");
+    const parsed = newsletterSchema.safeParse({ email: args.email, source: args.source });
+    if (!parsed.success) {
+      throw new Error(parsed.error.issues[0]?.message ?? "Invalid input");
     }
+    const normalized = parsed.data.email.toLowerCase();
 
     const existing = await ctx.db
       .query("newsletterSignups")
@@ -27,10 +27,7 @@ export const subscribe = mutation({
       return { created: false, _id: existing._id };
     }
 
-    const id = await ctx.db.insert("newsletterSignups", {
-      email: normalized,
-      source: args.source,
-    });
+    const id = await ctx.db.insert("newsletterSignups", { email: normalized, source: parsed.data.source });
 
     return { created: true, _id: id };
   },
