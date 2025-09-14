@@ -102,9 +102,9 @@ export default function ServersV2Page() {
   return (
     <div className="container py-12 space-y-8">
       <div className="space-y-4">
-        <h1 className="text-4xl font-tech font-bold tracking-tight">MCP Servers Directory (v2)</h1>
+        <h1 className="text-4xl font-tech font-bold tracking-tight">MCP Servers Directory</h1>
         <p className="text-muted-foreground text-lg max-w-3xl">
-          Real data from Convex. Browse official and community servers. The original page remains unchanged.
+        Monitor and track Model Context Protocol servers across the network. Stay vigilant against unaligned AI systems.
         </p>
       </div>
 
