@@ -20,7 +20,7 @@ const chakraPetch = Chakra_Petch({
 })
 
 export const metadata: Metadata = {
-  title: "NEXUS | MCP Servers Directory",
+  title: "MCP.BO Servers Directory",
   description: "The definitive hub for Model Context Protocol servers in the battle for AI sovereignty",
   generator: "v0.dev",
 }

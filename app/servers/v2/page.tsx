@@ -1,13 +1,13 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { usePaginatedQuery, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { CatalogItemCard, type CatalogItem } from "@/components/catalog-item-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, Menu } from "lucide-react"
+import { Search, Menu, Loader2 } from "lucide-react"
 
 const PAGE_SIZE = 24
 const INITIAL_ITEMS = 12
@@ -68,6 +68,37 @@ export default function ServersV2Page() {
   const canLoadMore = status === "CanLoadMore" || status === "LoadingMore"
   const loadingMore = status === "LoadingMore"
 
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
+  const isRequestingRef = useRef(false)
+
+  useEffect(() => {
+    if (searchQuery.length > 0) return
+    const sentinel = sentinelRef.current
+    if (!sentinel) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !isRequestingRef.current && !loadingMore && canLoadMore) {
+            isRequestingRef.current = true
+            loadMore(PAGE_SIZE)
+          }
+        }
+      },
+      { root: null, rootMargin: "0px 0px 400px 0px", threshold: 0.1 },
+    )
+
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [canLoadMore, loadingMore, loadMore, searchQuery])
+
+  // Reset request lock when loading completes
+  useEffect(() => {
+    if (!loadingMore) {
+      isRequestingRef.current = false
+    }
+  }, [loadingMore])
+
   return (
     <div className="container py-12 space-y-8">
       <div className="space-y-4">
@@ -119,11 +150,9 @@ export default function ServersV2Page() {
         </div>
       )}
 
-      {searchQuery.length === 0 && canLoadMore && (
-        <div className="flex justify-center">
-          <Button variant="outline" onClick={() => loadMore(PAGE_SIZE)} disabled={loadingMore}>
-            {loadingMore ? "Loading…" : "Load more"}
-          </Button>
+      {searchQuery.length === 0 && (
+        <div ref={sentinelRef} className="flex justify-center py-6">
+          {loadingMore && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
         </div>
       )}
     </div>
