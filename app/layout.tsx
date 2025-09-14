@@ -7,6 +7,7 @@ import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
 import { Suspense } from "react"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({
               <Suspense fallback={<div>Loading...</div>}>
                 <main className="flex-1 relative">{children}</main>
               </Suspense>
+              <Toaster />
               <Analytics />
               <footer className="border-t border-border/40 py-8 backdrop-blur-sm">
                 <div className="container flex flex-col md:flex-row items-center justify-between gap-6">

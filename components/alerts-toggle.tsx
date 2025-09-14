@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react"
 import { Bell } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
 
 type AlertsToggleProps = {
   className?: string
@@ -15,6 +16,7 @@ const STORAGE_KEY = "alertsEnabled"
 export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProps) {
   const [mounted, setMounted] = useState(false)
   const [enabled, setEnabled] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     setMounted(true)
@@ -63,6 +65,13 @@ export function AlertsToggle({ className, variant = "inline" }: AlertsToggleProp
     } else {
       // permission denied or unsupported -> revert toggle
       setEnabled(false)
+      toast({
+        title: "Notifications unavailable",
+        description:
+          perm === "denied"
+            ? "You've blocked notifications for this site. Enable them in your browser settings to receive alerts."
+            : "Your browser doesn't support notifications.",
+      })
     }
   }, [requestPermissionIfNeeded])
 
