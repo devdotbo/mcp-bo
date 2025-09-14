@@ -87,9 +87,9 @@ export default function ServersPage() {
     <div className="container py-12 space-y-8">
       <WorkInProgressGate
         ctaHref="/servers"
-        ctaLabel="Go to Servers (Boot)"
+        ctaLabel="Go to Servers"
         title="Models Directory under construction"
-        description="This page is being built. Jump to the Servers section to boot and manage servers."
+        description="his page is a work in progress. You can continue to the Servers section."
       />
       {/* Header */}
       <div className="space-y-4">

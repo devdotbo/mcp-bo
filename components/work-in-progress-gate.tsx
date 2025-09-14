@@ -5,7 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { AlertTriangle, Server } from "lucide-react"
+import { AlertTriangle, Server, Eye } from "lucide-react"
 
 type WorkInProgressGateProps = {
   ctaHref: string
@@ -59,6 +59,9 @@ export function WorkInProgressGate({
           </div>
 
           <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button variant="outline" disabled aria-disabled="true" className="font-tech">
+              <Eye className="mr-2 h-4 w-4" /> Preview anyway
+            </Button>
             <Button onClick={handleRedirect} className="font-tech">
               <Server className="mr-2 h-4 w-4" /> {ctaLabel}
             </Button>
