@@ -84,12 +84,6 @@ export default function ServersV2Page() {
         </Tabs>
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground font-tech">
-          {searchQuery ? "Search" : "Results"}: {visibleItems.length} item{visibleItems.length === 1 ? "" : "s"}
-        </p>
-        {status === "LoadingMore" && <Badge variant="outline">Loading more…</Badge>}
-      </div>
 
       {visibleItems.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
