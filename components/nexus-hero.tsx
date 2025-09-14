@@ -4,11 +4,16 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Brain, Shield } from "lucide-react"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 export function NexusHero() {
   const [loaded, setLoaded] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "The future of AI is being written now.\nTrack it. Monitor it. Control it."
+
+  const stats = useQuery(api.catalog.stats, {})
+  const totalServers = stats?.totalCount ?? 0
 
   useEffect(() => {
     setLoaded(true)
@@ -99,7 +104,7 @@ export function NexusHero() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 pt-12 max-w-2xl mx-auto">
             <div className="space-y-1 p-4 rounded-lg bg-black/5 dark:bg-white/5 backdrop-blur-sm">
-              <p className="text-3xl font-mono font-bold text-primary">180+</p>
+              <p className="text-3xl font-mono font-bold text-primary">{totalServers.toLocaleString()}</p>
               <p className="text-xs text-muted-foreground font-tech">MCP Servers</p>
             </div>
             <div className="space-y-1 p-4 rounded-lg bg-black/5 dark:bg-white/5 backdrop-blur-sm">
