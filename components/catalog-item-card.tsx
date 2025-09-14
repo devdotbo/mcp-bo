@@ -19,18 +19,18 @@ export function CatalogItemCard({ item }: { item: CatalogItem }) {
       <CardContent className="p-6 space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2 flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <h3 className="font-medium text-lg text-left break-words line-clamp-1">{item.name}</h3>
-              <Badge variant="secondary" className="text-xs">
-                {item.category === "official_integrations" ? "Official" : "Community"}
-              </Badge>
-            </div>
+            <h3 className="font-medium text-lg text-left break-words line-clamp-1">{item.name}</h3>
             <p className="text-sm text-muted-foreground line-clamp-3 break-words text-left">{item.description}</p>
           </div>
-          {item.icons?.[0] && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={item.icons[0]} alt="logo" className="h-10 w-10 rounded-sm border border-border/40 bg-background" />
-          )}
+          <div className="flex flex-col items-end gap-2 shrink-0">
+            <Badge variant="secondary" className="text-xs">
+              {item.category === "official_integrations" ? "Official" : "Community"}
+            </Badge>
+            {item.icons?.[0] && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.icons[0]} alt="logo" className="h-10 w-10 rounded-sm border border-border/40 bg-background" />
+            )}
+          </div>
         </div>
       </CardContent>
       <CardFooter className="px-6 pb-6 pt-0">
