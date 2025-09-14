@@ -67,11 +67,11 @@ export function NavBar() {
                 Servers
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
-              <Link href="#" className="text-sm font-tech transition-all hover:text-primary relative group">
+              <Link href="/models" className="text-sm font-tech transition-all hover:text-primary relative group">
                 Intelligence
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
-              <Link href="#" className="text-sm font-tech transition-all hover:text-primary relative group">
+              <Link href="/models" className="text-sm font-tech transition-all hover:text-primary relative group">
                 Manifesto
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>

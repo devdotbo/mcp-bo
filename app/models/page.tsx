@@ -88,7 +88,7 @@ export default function ServersPage() {
       <WorkInProgressGate
         ctaHref="/servers"
         ctaLabel="Go to Servers"
-        title="Models Directory under construction"
+        title="Area under construction"
         description="his page is a work in progress. You can continue to the Servers section."
       />
       {/* Header */}
