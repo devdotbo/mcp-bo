@@ -149,7 +149,7 @@ export default function ServersV2Page() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">No servers found.</p>
+          <p className="text-muted-foreground">...</p>
         </div>
       )}
 
