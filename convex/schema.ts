@@ -24,6 +24,12 @@ export default defineSchema({
     .index("by_name", ["name"]) 
     .index("by_name_and_order", ["name", "orderInSection"]) 
     .searchIndex("search_name", { searchField: "name", filterFields: ["category"] }),
+
+  // Newsletter signups captured from the UI
+  newsletterSignups: defineTable({
+    email: v.string(),
+    source: v.optional(v.string()),
+  }).index("by_email", ["email"]),
 });
 
 
