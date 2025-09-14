@@ -113,7 +113,7 @@ export function NexusHero() {
             </div>
             <div className="space-y-1 p-4 rounded-lg bg-black/5 dark:bg-white/5 backdrop-blur-sm">
               <p className="text-3xl font-mono font-bold text-primary">3.2K</p>
-              <p className="text-xs text-muted-foreground font-tech">Active Users</p>
+              <p className="text-xs text-muted-foreground font-tech">Active Agents</p>
             </div>
           </div>
         </div>
