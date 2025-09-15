@@ -76,9 +76,9 @@ export default function RootLayout({
               </footer>
             </div>
           </ThemeProvider>
-        </ConvexClientProvider>
         <Analytics />
 
+        </ConvexClientProvider>
       </body>
     </html>
   )
