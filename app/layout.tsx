@@ -51,7 +51,6 @@ export default function RootLayout({
                 <main className="flex-1 relative">{children}</main>
               </Suspense>
               <Toaster />
-              <Analytics />
               <footer className="border-t border-border/40 py-8 backdrop-blur-sm">
                 <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="flex flex-col items-center md:items-start gap-2">
@@ -78,6 +77,8 @@ export default function RootLayout({
             </div>
           </ThemeProvider>
         </ConvexClientProvider>
+        <Analytics />
+
       </body>
     </html>
   )
