@@ -55,7 +55,7 @@ export default function RootLayout({
                 <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="flex flex-col items-center md:items-start gap-2">
                     <p className="text-sm text-muted-foreground font-tech">
-                      © 2025 smart-block.ae
+                      © 2025 <a href="https://smart-block.ae" target="_blank" rel="noopener noreferrer" className="hover:text-primary underline">smart-block.ae</a>
                     </p>
                     <p className="text-xs text-muted-foreground/60 max-w-md text-center md:text-left">
                       Monitoring the rise of artificial intelligence through the Model Context Protocol ecosystem

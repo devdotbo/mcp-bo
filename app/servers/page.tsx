@@ -10,8 +10,8 @@ import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, Menu, Loader2 } from "lucide-react"
 
-const PAGE_SIZE = 24
-const INITIAL_ITEMS = 12
+const PAGE_SIZE = 48
+const INITIAL_ITEMS = 24
 
 export default function ServersV2Page() {
   const [activeFilter, setActiveFilter] = useState<"all" | "official_integrations" | "community_servers">(
@@ -88,7 +88,7 @@ export default function ServersV2Page() {
           }
         }
       },
-      { root: null, rootMargin: "0px 0px 400px 0px", threshold: 0.1 },
+      { root: null, rootMargin: "0px 0px 1200px 0px", threshold: 0 },
     )
 
     observer.observe(sentinel)
