@@ -34,7 +34,7 @@ export function HumanAiBattle() {
 
   return (
     <div
-      className={`fixed bottom-4 right-4 z-10 w-64 ${isLightTheme ? "bg-white/90 text-foreground shadow-md" : "bg-black/80 text-white shadow-xl"} border border-primary/30 rounded-lg backdrop-blur-md p-4 transition-colors duration-300 hidden md:block`}
+      className={`fixed bottom-4 right-4 z-50 w-64 ${isLightTheme ? "bg-white/90 text-foreground shadow-md" : "bg-black/80 text-white shadow-xl"} border border-primary/30 rounded-lg backdrop-blur-md p-4 transition-colors duration-300 hidden md:block`}
     >
       <h3 className="text-sm font-bold mb-2 text-center font-tech">HUMANITY vs AI</h3>
       <div className="space-y-4">

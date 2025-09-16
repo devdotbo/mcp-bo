@@ -29,7 +29,7 @@ export function ThemeToggle() {
         <Button
           variant="outline"
           size="icon"
-          className="border-primary/50 bg-black/20 backdrop-blur-sm w-9 h-9 relative overflow-hidden"
+          className="border-primary/30 bg-secondary/40 hover:bg-secondary/60 dark:bg-black/20 backdrop-blur-sm w-9 h-9 relative overflow-hidden"
           aria-label="Toggle theme"
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
@@ -39,11 +39,11 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="animate-in fade-in-80 zoom-in-95 border-primary/50 bg-black/80 backdrop-blur-md"
+        className="animate-in fade-in-80 zoom-in-95 bg-popover text-popover-foreground border border-border shadow-xl backdrop-blur-md dark:bg-black/80"
       >
         <DropdownMenuItem
           onClick={() => setTheme("light")}
-          className="cursor-pointer hover:bg-primary/20 flex items-center gap-2"
+          className="cursor-pointer flex items-center gap-2 focus:bg-accent/60 hover:bg-accent/60"
         >
           <Sun className="h-4 w-4" />
           <span>Light</span>
@@ -51,7 +51,7 @@ export function ThemeToggle() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("dark")}
-          className="cursor-pointer hover:bg-primary/20 flex items-center gap-2"
+          className="cursor-pointer flex items-center gap-2 focus:bg-accent/60 hover:bg-accent/60"
         >
           <Moon className="h-4 w-4" />
           <span>Dark</span>
@@ -59,7 +59,7 @@ export function ThemeToggle() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("system")}
-          className="cursor-pointer hover:bg-primary/20 flex items-center gap-2"
+          className="cursor-pointer flex items-center gap-2 focus:bg-accent/60 hover:bg-accent/60"
         >
           <span className="i-lucide-laptop h-4 w-4"></span>
           <span>System</span>

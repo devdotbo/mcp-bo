@@ -120,7 +120,7 @@ export function NavBar() {
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center mr-2">
-              <div className="text-xs font-mono bg-black/50 border border-red-500/30 rounded px-2 py-1 text-red-400">
+              <div className="text-xs font-mono rounded px-2 py-1 border border-red-500/30 bg-red-500/10 text-red-700 dark:bg-black/50 dark:text-red-400 backdrop-blur-sm shadow-sm">
                 <span className="font-bold">SINGULARITY WATCH:</span> {countdown.days}d {countdown.hours}h{" "}
                 {countdown.minutes}m {countdown.seconds}s
               </div>
