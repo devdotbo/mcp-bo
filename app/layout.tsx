@@ -55,22 +55,14 @@ export default function RootLayout({
                 <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="flex flex-col items-center md:items-start gap-2">
                     <p className="text-sm text-muted-foreground font-tech">
-                      © {new Date().getFullYear()} NEXUS | The definitive MCP directory
+                      © 2025 smart-block.ae
                     </p>
                     <p className="text-xs text-muted-foreground/60 max-w-md text-center md:text-left">
                       Monitoring the rise of artificial intelligence through the Model Context Protocol ecosystem
                     </p>
                   </div>
-                  <div className="flex items-center gap-8">
-                    <a href="#" className="text-sm font-tech text-muted-foreground hover:text-primary transition-colors">
-                      Manifesto
-                    </a>
-                    <a href="#" className="text-sm font-tech text-muted-foreground hover:text-primary transition-colors">
-                      Privacy
-                    </a>
-                    <a href="#" className="text-sm font-tech text-muted-foreground hover:text-primary transition-colors">
-                      Terms
-                    </a>
+                  <div className="max-w-md text-xs text-muted-foreground/60 text-center md:text-right">
+                    This software is provided as-is and uses minimal analytics via Vercel and Convex.
                   </div>
                 </div>
               </footer>
