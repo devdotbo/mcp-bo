@@ -11,7 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenu
 import { Search, Menu, Loader2 } from "lucide-react"
 
 const PAGE_SIZE = 48
-const INITIAL_ITEMS = 24
+const INITIAL_ITEMS = 48
 
 export default function ServersV2Page() {
   const [activeFilter, setActiveFilter] = useState<"all" | "official_integrations" | "community_servers">(
