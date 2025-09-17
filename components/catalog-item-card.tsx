@@ -10,7 +10,6 @@ export type CatalogItem = {
   orderInSection: number
   description: string
   homepage: string
-  icons?: Array<string>
 }
 
 export function CatalogItemCard({ item }: { item: CatalogItem }) {
@@ -35,14 +34,6 @@ export function CatalogItemCard({ item }: { item: CatalogItem }) {
                 >
                   {item.category === "official_integrations" ? "Official" : "Community"}
                 </Badge>
-                {item.icons?.[0] && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={item.icons[0]}
-                    alt="logo"
-                    className="h-10 w-10 rounded-sm border border-border/40 bg-background"
-                  />
-                )}
               </div>
             </div>
             <p className="text-sm text-muted-foreground line-clamp-3 break-words text-left">{item.description}</p>

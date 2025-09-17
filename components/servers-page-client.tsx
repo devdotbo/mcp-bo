@@ -59,7 +59,6 @@ export function ServersPageClient({
     orderInSection: d.orderInSection,
     description: d.description,
     homepage: d.homepage,
-    icons: d.icons,
   })
 
   const visibleItems: Array<CatalogItem> = useMemo(() => {
