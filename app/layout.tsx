@@ -51,7 +51,7 @@ export default function RootLayout({
                 <main className="flex-1 relative">{children}</main>
               </Suspense>
               <Toaster />
-              <footer className="border-t border-border/40 py-8 backdrop-blur-sm">
+              <footer className="border-t border-border/40 py-8">
                 <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="flex flex-col items-center md:items-start gap-2">
                     <p className="text-sm text-muted-foreground font-tech">

@@ -86,7 +86,7 @@ export function NavBar() {
       <header
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-300",
-          scrolled ? "bg-background/80 backdrop-blur-md border-b border-border/40" : "bg-transparent",
+          scrolled ? "bg-background/80 border-b border-border/40" : "bg-transparent",
         )}
       >
         <div className="container flex h-16 items-center justify-between">
@@ -120,7 +120,7 @@ export function NavBar() {
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center mr-2">
-              <div className="text-xs font-mono rounded px-2 py-1 border border-red-500/30 bg-red-500/10 text-red-700 dark:bg-black/50 dark:text-red-400 backdrop-blur-sm shadow-sm">
+            <div className="text-xs font-mono rounded px-2 py-1 border border-red-500/30 bg-red-500/10 text-red-700 dark:bg-black/50 dark:text-red-400 shadow-sm">
                 <span className="font-bold">SINGULARITY WATCH:</span> {countdown.days}d {countdown.hours}h{" "}
                 {countdown.minutes}m {countdown.seconds}s
               </div>
@@ -143,7 +143,7 @@ export function NavBar() {
           </div>
         </div>
         {isMenuOpen && (
-          <div className="container md:hidden py-4 border-t border-border/40 backdrop-blur-sm">
+          <div className="container md:hidden py-4 border-t border-border/40">
             <nav className="flex flex-col gap-4">
               <Link
                 href="/"

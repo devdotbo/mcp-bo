@@ -40,16 +40,16 @@ export function NexusHero() {
       {/* Animated circuit lines */}
       <div className="absolute inset-0">
         <div
-          className={`absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transform ${loaded ? "animate-pulse-slow" : ""}`}
+          className={`absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transform`}
         ></div>
         <div
-          className={`absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent transform ${loaded ? "animate-pulse-slower" : ""}`}
+          className={`absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent transform`}
         ></div>
         <div
-          className={`absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent transform ${loaded ? "animate-pulse-slow" : ""}`}
+          className={`absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent transform`}
         ></div>
         <div
-          className={`absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-purple-500/30 to-transparent transform ${loaded ? "animate-pulse-slower" : ""}`}
+          className={`absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-purple-500/30 to-transparent transform`}
         ></div>
       </div>
 
