@@ -3,7 +3,7 @@ import { ServerCard } from "@/components/server-card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Shield } from "lucide-react"
-import { NexusHero } from "@/components/nexus-hero"
+import { NexusHeroWrapper } from "@/components/nexus-hero-wrapper"
 // Analytics is rendered via SSR wrapper in RootLayout to avoid duplicate preloadQuery calls
 import { HumanAiBattle } from "@/components/human-ai-battle"
 import { WorkInProgressSection } from "@/components/work-in-progress-section"
@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <NexusHero />
+      <NexusHeroWrapper />
       {/* SSR Analytics rendered in RootLayout */}
       <HumanAiBattle />
 

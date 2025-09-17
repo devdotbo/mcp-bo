@@ -4,15 +4,19 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Brain, Shield } from "lucide-react"
-import { useQuery } from "convex/react"
+import { Preloaded, usePreloadedQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 
-export function NexusHero() {
+export function NexusHero({
+  preloadedStats,
+}: {
+  preloadedStats: Preloaded<typeof api.catalog.stats>
+}) {
   const [loaded, setLoaded] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "The future of AI is being written now.\nTrack it. Monitor it. Control it."
 
-  const stats = useQuery(api.catalog.stats, {})
+  const stats = usePreloadedQuery(preloadedStats)
   const totalServers = stats?.totalCount ?? 0
 
   useEffect(() => {
