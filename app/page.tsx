@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Shield } from "lucide-react"
 import { NexusHero } from "@/components/nexus-hero"
-import { Analytics } from "@/components/analytics"
+// Analytics is rendered via SSR wrapper in RootLayout to avoid duplicate preloadQuery calls
 import { HumanAiBattle } from "@/components/human-ai-battle"
 import { WorkInProgressSection } from "@/components/work-in-progress-section"
 
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="relative">
       <NexusHero />
-      <Analytics />
+      {/* SSR Analytics rendered in RootLayout */}
       <HumanAiBattle />
 
       <div className="container py-16 space-y-24">

@@ -1,10 +1,14 @@
 "use client"
 
-import { useQuery } from "convex/react"
+import { Preloaded, usePreloadedQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 
-export function Analytics() {
-  const stats = useQuery(api.catalog.stats, {})
+export function Analytics({
+  preloadedStats,
+}: {
+  preloadedStats: Preloaded<typeof api.catalog.stats>
+}) {
+  const stats = usePreloadedQuery(preloadedStats)
 
   const totalServers = stats?.totalCount ?? 0
   const officialCount = stats?.officialCount ?? 0

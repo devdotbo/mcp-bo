@@ -4,7 +4,7 @@ import { JetBrains_Mono, Chakra_Petch } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { NavBar } from "@/components/nav-bar"
 import type { Metadata } from "next"
-import { Analytics } from "@/components/analytics"
+import { AnalyticsWrapper } from "@/components/analytics-wrapper"
 import { Suspense } from "react"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
 import { Toaster } from "@/components/ui/toaster"
@@ -68,7 +68,12 @@ export default function RootLayout({
               </footer>
             </div>
           </ThemeProvider>
-        <Analytics />
+        {/* Preloaded Convex stats for SSR + reactivity */}
+        {/* Avoid multiple preloads on the same page to preserve consistency */}
+        {/* https://docs.convex.dev/client/react/nextjs/server-rendering */}
+        {/* Server Component renders at the root so it's loaded once */}
+        {/* eslint-disable-next-line react/jsx-pascal-case */}
+        <AnalyticsWrapper />
         </ConvexClientProvider>
       </body>
     </html>
