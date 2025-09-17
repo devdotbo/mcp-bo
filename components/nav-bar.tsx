@@ -18,7 +18,20 @@ import { newsletterSchema, emailSchema } from "@/lib/schemas"
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const computeCountdown = () => {
+    const targetDate = new Date(2027, 0, 1, 0, 0, 0)
+    const now = new Date()
+    let difference = targetDate.getTime() - now.getTime()
+    if (difference < 0) difference = 0
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+    return { days, hours, minutes, seconds }
+  }
+  const [countdown, setCountdown] = useState(() => computeCountdown())
   const [newsletterOpen, setNewsletterOpen] = useState(false)
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState<string | null>(null)
@@ -36,18 +49,8 @@ export function NavBar() {
   }, [])
 
   useEffect(() => {
-    const targetDate = new Date(2027, 0, 1, 0, 0, 0)
-
     const interval = setInterval(() => {
-      const now = new Date()
-      const difference = targetDate.getTime() - now.getTime()
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-
-      setCountdown({ days, hours, minutes, seconds })
+      setCountdown(computeCountdown())
     }, 1000)
 
     return () => clearInterval(interval)
