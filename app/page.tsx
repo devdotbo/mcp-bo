@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ArrowRight, Shield } from "lucide-react"
 import { NexusHeroWrapper } from "@/components/nexus-hero-wrapper"
 // Analytics is rendered via SSR wrapper in RootLayout to avoid duplicate preloadQuery calls
-import { HumanAiBattle } from "@/components/human-ai-battle"
+import { HumanAiBattleWrapper } from "@/components/human-ai-battle-wrapper"
 import { WorkInProgressSection } from "@/components/work-in-progress-section"
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
     <div className="relative">
       <NexusHeroWrapper />
       {/* SSR Analytics rendered in RootLayout */}
-      <HumanAiBattle />
+      <HumanAiBattleWrapper />
 
       <div className="container py-16 space-y-24">
         <WorkInProgressSection ctaHref="/servers">

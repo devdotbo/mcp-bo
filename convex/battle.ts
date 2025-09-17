@@ -41,6 +41,25 @@ export const getBattle = query({
   },
 });
 
+export const getHumanity = query({
+  args: {
+    slug: v.string(),
+  },
+  returns: v.object({
+    humanityPercent: v.number(),
+  }),
+  handler: async (ctx, args) => {
+    const battle = await ctx.db
+      .query("battles")
+      .withIndex("by_slug", (q) => q.eq("slug", args.slug))
+      .unique();
+
+    return {
+      humanityPercent: battle ? battle.humanityPercent : DEFAULT_HUMANITY_PERCENT,
+    } as const;
+  },
+});
+
 export const vote = mutation({
   args: {
     slug: v.string(),

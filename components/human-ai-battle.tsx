@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/button"
 import { Brain, Users } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useSessionQuery, useSessionMutation } from "convex-helpers/react/sessions"
+import { Preloaded, usePreloadedQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 
 const SLUG = "human_vs_ai"
 
-export function HumanAiBattle() {
+export function HumanAiBattle({
+  preloadedHumanity,
+}: {
+  preloadedHumanity: Preloaded<typeof api.battle.getHumanity>
+}) {
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
 
@@ -20,9 +25,11 @@ export function HumanAiBattle() {
   const battle = useSessionQuery(api.battle.getBattle, { slug: SLUG })
   const voteMutation = useSessionMutation(api.battle.vote)
 
+  const preloaded = usePreloadedQuery(preloadedHumanity)
+
   const humanityPercent = useMemo(() => {
-    return battle?.humanityPercent ?? 52.42
-  }, [battle])
+    return battle?.humanityPercent ?? preloaded?.humanityPercent ?? 52.42
+  }, [battle, preloaded])
   const aiPercent = useMemo(() => 100 - humanityPercent, [humanityPercent])
 
   const lastChoice = battle?.lastChoice
